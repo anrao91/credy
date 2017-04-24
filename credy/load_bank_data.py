@@ -1,6 +1,6 @@
 import os
 import json
-from .models import Bank,Branch
+from validate.models import Bank,Branch
 
 for filename in os.listdir("/home/anusha/Downloads/ifsc-api-master/data"):
 	f = open("/home/anusha/Downloads/ifsc-api-master/data/" + filename)
