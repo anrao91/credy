@@ -1,0 +1,69 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<header> 
+<div class="container" id="maincontent">
+<h3 style="color:white !important; padding-bottom:35px !important"><u>Get Branch Details for a Given Bank and IFSC code</h3></u>
+    <div class="row">
+    	<div class="col-md-3 col-md-offset-0">
+    		Select a Bank: <select id="select_bank" style="color:black !important; width: 100% !important;" class="selectpicker" onchange="get_ifsc()"></select>
+    	</div>
+    	<div align="center" class="col-md-4">
+    		Select IFSC Code for the selected Bank: <select id="select_ifsc" style="color:black !important; width: 70% !important;" class="selectpicker" onchange="get_branch()"></select>
+    	</div>
+    	<div class="col-md-4">
+    		Branch Details: <textarea id="bank_detail" style = "color:black !important" class="bank_detail" cols="40" rows="6" readonly></textarea>
+    	</div>
+    </div>	
+</div>
+</header>	
+<script type="text/javascript">
+	window.addEventListener("load",function(){
+	    var xhttp = new XMLHttpRequest();
+	    xhttp.open("GET", "/validate/get_banks/", false);
+	    xhttp.setRequestHeader("Content-type", "application/json");
+	    xhttp.send();
+	    var banks = JSON.parse(xhttp.responseText);
+	    var select= document.getElementById("select_bank");
+	    
+	    banks.forEach(function(index, item){
+			var option = document.createElement("option");
+		    option.text = index.name;
+		    option.value = index.name;
+		    option.style = "color:black";
+		    select.add(option);
+    }); }, false);
+
+	function get_ifsc(){
+	var select = document.getElementById('select_bank');
+	var bank_name = select.options[select.selectedIndex].value;
+	var xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "/validate/get_ifsc/?name="+bank_name, false);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send();
+    var ifscs = JSON.parse(xhttp.responseText);
+    var select1 = document.getElementById("select_ifsc");
+    $("#select_ifsc").empty();
+	ifscs.forEach(function(index, item){
+		var option = document.createElement("option");
+	    option.text = index.ifsc+ "-" + index.name
+	    option.value = index.ifsc;
+	    option.style = "color:black";
+	    select1.add(option);
+    });
+	}
+	function get_branch(){
+	var select_ifsc = document.getElementById('select_ifsc');
+	var ifsc = select_ifsc.options[select_ifsc.selectedIndex].value;
+	var xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "/validate/get_branch/"+ifsc+"/", false);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send();
+    var bank_details = JSON.parse(xhttp.responseText);
+    $('#bank_detail').val('Branch name: ' + bank_details.name + ' \n' + 'Contact: ' + bank_details.contact + ' \n' + 'Address: ' + bank_details.address + '\n' + 'District: ' + bank_details.district + '\n' + 'State: ' + bank_details.state);
+	}
+		
+</script>
+
+{% endblock %}
