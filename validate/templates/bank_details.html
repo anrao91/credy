@@ -61,6 +61,10 @@
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.send();
     var bank_details = JSON.parse(xhttp.responseText);
+    if !bank_details.contact:
+    	bank_details.contact = '';
+    if !bank_details.address:
+    	bank_details.address = '';
     $('#bank_detail').val('Branch name: ' + bank_details.name + ' \n' + 'Contact: ' + bank_details.contact + ' \n' + 'Address: ' + bank_details.address + '\n' + 'District: ' + bank_details.district + '\n' + 'State: ' + bank_details.state);
 	}
 		
