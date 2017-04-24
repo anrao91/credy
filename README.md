@@ -6,9 +6,9 @@ Services to validate data input
 
 These instructions will get you a copy of the project up and running on your local machine for development purpose. See deployment for notes on how to deploy the project on a live system.
 
-`git clone https://github.com/anrao91/credy`
-`cd credy`
-`python manage.py runserver`
+* `git clone https://github.com/anrao91/credy`
+* `cd credy`
+* `python manage.py runserver`
 
 
 ### Prerequisites
